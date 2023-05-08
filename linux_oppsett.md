@@ -309,3 +309,140 @@ Noen konteinere trenger å starte med noen parametere.
 Det finnes mange parametere i kommandoen, og man får en oversikt over de forskjellige ved å skrive ```docker run --help```.
 
 Dersom noen av konteinerene i testene våres krever parametere så vil det bli spesifisert i oppsettet til testen. 
+
+
+
+
+# Eksperiment 2: Test av Caddy konteinere
+
+1. Laster ned en binær fil fra https://testfiledownload.com/ med størrelse på 100MB.
+
+2. Lager en Dockerfile med følgene innhold:
+
+FROM caddy:latest \
+COPY ./100MB.bin /usr/share/caddy/ 
+
+- FROM kommandoen vil hente (PULL) den siste versjonen av caddy fra Docker Hub.
+- COPY kommandoen vil legge til en binær fil på 100MB inn i imaget i filstrukturen /usr/share/caddy/, som er filplasseringen for filer endebrukeren henter. Som index.html, ettersom testene skal curle filen, er det en fornuftig filplassering. 
+
+Kilde: https://www.docker.com/blog/how-to-use-the-official-nginx-docker-image/
+
+Vi velger å ikke bruke mount volume da det kobler opp konteineren til en filplassering lokalt på maskinen/VMen. Dette vil kunne skape forsinkelser og kunne gi feilkilder.
+
+3. Vi går inn i samme mappe som Dockerfilen og binærfilen ligger, og kjører følgene kommando i powershell:
+
+$ docker build -t webserver .
+
+Denne kommandoen bygger en webserver basert på Dockerfilen som ble laget tidligere, altså en Caddy webserver som har en binærfil i filstrukturen sin på 100MB.
+
+4. Kjøre følgene kommando for å starte webserveren:
+
+$ docker run -d --ip http://10.0.0.x -p 8080:80 webserver
+
+Denne kommandoen starter en konteiner basert på imaget "webserver" som ble laget i forrige steg:
+- Docker run - Starter konteineren
+- -d - kjører konteineren i bakgrunnen
+- -p 8080:80 - Setter port 8080 til verten og port 80 til konteineren
+- --ip setter statisk IP til webserveren og fjerner TLS slik at det kun blir http
+
+5. Gjennomføring og resultater
+
+For å kjøre gjennomføre curl x antall ganger, samt måle tid den bruker på å curle i en fil, brukes følgene powershellscript:
+
+$fileName = "results.txt" \
+$numberOfRuns = 100
+
+for ($i = 1; $i -le $numberOfRuns; $i++) {
+    $timeSpan = Measure-Command {cmd /c 'curl.exe http://10.0.0.x/100MB.bin -o -'} \
+    $totalSeconds = $timeSpan.TotalSeconds \
+    Add-Content -Path $fileName -Value $totalSeconds
+}
+
+- $fileName - Lager en fil kalt results.txt
+- $numberOfRuns - Antall ganger den skal curle
+- $timeSpan - En variabel for curl og tidsmåling koammdno
+- Measure-Coammdnd - Tar tiden det tar å curle
+- $totalSeconds - Variabel for hvor mange sekunder curlen tar
+- Legger til tiden det tar å curle i filen results.txt
+
+
+### Hyper-V backend-modus
+
+Windows- og Linux-konteinere på Wundows
+
+1. I instillinger på Docker Desktop under Generelt skru av "Use WSL 2 based engine"I
+
+https://learn.microsoft.com/en-us/virtualization/hyper-v-on-windows/quick-start/enable-hyper-v
+
+2. Åpne powershell som administrator
+3. Kjør følgene kommando:
+
+Enable-WindowsOptionalFeature -Online -FeatureName Microsoft-Hyper-V -All
+
+### Bytte mellom isolation- og Hyper-V-isolaton
+Ved å bruke følgene kommandoen ved kjøring av en konteiner kan man bytte mellom process- og hyper-V-isolation.
+
+--isolation=process
+
+--isolation=hyperv
+
+https://web.archive.org/web/20220922004918/https://learn.microsoft.com/en-us/virtualization/windowscontainers/manage-containers/hyperv-container
+
+NB: Windows-server konteinere bruker standard process isolation, og Windows 10 konteinere bruker standard Hyper-V isolation. Fra og med Windows 10 oktober 2018-oppdateringen kan brukere som kjører en Windows 10 Pro eller Enterprise-vert kjøre en Windows-konteiner med process isolation. Brukere må direkte be om process isolation ved å bruke --isolation=process.
+
+
+
+### WSL2 backend-modus
+
+Linux-konteinere på Windows
+
+1. I instillinger på Docker Desktop under Generelt skru på "Use WSL 2 based engine"
+
+
+### Switche mellom Windows- og Linux-konteinere
+"Switch to Windows/Linux containers" knappen når man høyreklikker på Docker Dekstop inkonet i system tray.
+
+
+
+### Hvordan sjekke backend- og isolation-modus
+
+Følgene kommando viser backend modus: \
+docker info | Select-String -Pattern "OSType"
+
+- Windows - Hyper-V
+- Linux - WSL 2
+
+Følgene kommando viser isolasjonsmodus: \
+docker info | Select-String -Pattern "Isolation"
+
+
+<!--->
+5. For å sjekke tiden det tar å hente ned filen 100MB.bin fra Caddy webserveren brukes kommandoen:
+
+(NB: Linux kommando)
+
+$ time curl localhost:8080/100MB.bin --output fil.txt
+
+- time - Tar tiden på henting av 100MB.bin
+- --output fil.txt - Legger outputet fra 100MB.bin filen som blir curlet inn i en tekstfil, da det kan bli problemer i terminalvinduet ved printing av binære verdier.
+
+Powershellkommando:
+
+Measure-Command {cmd /c 'curl.exe http://localhost:12345/100MB.bin -o -'}
+
+7. Flere gjenomføringer og resultat i fil - Linux
+
+fileName="results.txt"
+for i in {1..10}
+do
+  { time curl localhost:12345/100MB.bin --output /dev/null 2>&1 ; } 2>> $fileName
+done
+
+cat results.txt | grep real | awk '{print substr($2, 3, length($2)-3)}' > final.txt
+
+
+'''
+Containers feature is disabled. Enable it using the PowerShell script (in an administrative PowerShell) and restart your computer before using Docker Desktop: 
+
+Enable-WindowsOptionalFeature -Online -FeatureName $("Microsoft-Hyper-V", "Containers") -All
+'''
