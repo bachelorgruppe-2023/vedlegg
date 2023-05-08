@@ -36,7 +36,7 @@ Vi kjører Debian GNU/Linux 11.6.0 x86_64 med standardinstillinger
 
 <br>
 
-## 2.1 Sudo rettigheter til Linux brukeren:
+## 2.1 Sudo rettigheter til Linux brukeren
 ```shell
   $ su
   # sudo visudo
@@ -76,25 +76,75 @@ docker --version
 <br>
 
 
+# 3 Test 1
+Maksinen har Windows 10 Pro versjon 22H2 (operativsystembygg 19045.2846)
+
+Laster ned [Docker Desctop for Windows](https://desktop.docker.com/win/main/amd64/Docker%20Desktop%20Installer.exe) fra [nettsiden](https://docs.docker.com/desktop/install/windows-install/) til Docker. 
+
+Kjører Docker Desktop programmet, og får bedskjed om å oppdatere WSL. Følger [WSL guide](https://learn.microsoft.com/en-us/windows/wsl/install-manual) fra Microsoft:
+1. Laster ned [WSL2](https://wslstorestorage.blob.core.windows.net/wslblob/wsl_update_x64.msi) fra [guiden](https://learn.microsoft.com/en-us/windows/wsl/install-manual) på en maskin med Internett.
+
+2. Overfører filen til maskinen uten Internett med minnepinne, og kjører filen. 
+
+3. Setter WSL 2 som standardversjon av WSL gjennom å kjøre kommandoen:
+```shell
+wsl --set-default-version 2
+```
+<br> <br>
+
+## 3.1 Overføre Windows-image <a id=windows-image> </a>
+En maskin med Internett-tilgang vil bli brukt til å laste ned det imaget vi ønsker å overføre til Windows-maskinen uten Internett: 
+
+1. På begge maskinene må man [bytte til](#bytte_OS) **Windows-kontinere** for Docker Desktop.
+2. På Windows-maskinen med Internett-tilgang [laster man ned](#laste_image) Windows-imaget **hello-world:nanoserver-1809**. 
+3. Deretter [overfører](#overføre_image) man imaget til Windows-maskinen uten Internett.
+
+<br>
+
+## 3.2 Overføre Linux-image <a id=linux-image> </a>
+En maskin med Internett-tilgang vil bli brukt til å laste ned det imaget vi ønsker å overføre til Windows-maskinen uten Internett: 
+
+1. På begge maskinene må man [bytte til](#bytte_OS) **Linux-kontinere** for Docker Desktop.
+2. På Windows-maskinen med Internett-tilgang [laster man ned](#laste_image) Windows-imaget **hello-world:linux**. 
+3. Deretter [overfører](#overføre_image) man imaget til Windows-maskinen uten Internett.
+
+<br> <br>
 
 
 
+# 4 Test 2
+### Maskinene har følene maskinvare:
 
-# Eksperiment 2: 
-Vi kjører Windows Enterprise 10 OS-build 1........ 64-bit med standardinstillinger 
-
-RAM: 8 GB
-Hard Disk: 128 GB
-CPU: 2
-Cores per Socket: 2
+RAM: 8 GB \
+Hard Disk: 128 GB \
+CPU: 2 \
+Cores per Socket: 2 \
 Skrur på "Exposure hardware assisted viritualization to the guest OS" i vSphere Client for Windows maskinen.
 
-På alle maskinene som er med i test 2 er det lastet ned en 100 MB binær fil med [lenken](https://speed.hetzner.de/100MB.bin) fra [testfilesdownload.com](https://testfiledownload.com/). Den vil bli referert til som 100MB.bin fra nå av. 
+På alle maskinene som er med i test 2 er det lastet ned en 100 MB binær fil med [lenken](https://speed.hetzner.de/100MB.bin) fra [testfilesdownload.com](https://testfiledownload.com/).
 
 <br><br>
 
+### Oppsett av de ulike miljøene
 
-## Test av Caddy konteinere
+Det ble laget ulike testmiljøer for å teste ulike typer konteinere samt en tradisjonell applikasjon. Miljøene og variablene er listet under:
+
+| Miljø             | 1                               | 2                                   | 3                                  | 4                                  | 5                                  | 6                                |
+|-------------------|---------------------------------|-------------------------------------|------------------------------------|------------------------------------|------------------------------------|----------------------------------|
+| Applikasjons-form | Linux-konteiner                 | Linux-konteiner                     | Linux-konteiner                    | Windows-applikasjon                | Windows-konteiner                  | Windows-konteiner                |
+| VertsOS           | Linux vert                      | Windows vert                        | Windows vert                       | Windows vert                       | Windows vert                       | Windows Server vert              |
+| Virtualisering    |                -                | Hyper-V                             | WSL 2                              |                  -                 | Hyper-V                            | Hyper-V                          |
+| OS versjon        | Debian GNU/ Linux 11 (bullseye) | Windows 10 Enterprise versjon 22H2  | Windows 10 Enterprise versjon 22H2 | Windows 10 Enterprise versjon 22H2 | Windows 10 Enterprise versjon 22H2 | Windows Server 2019 versjon 1809 |
+| Docker versjon    | Versjon 23.0.3                  | Versjon 23.0.5                      | Versjon 23.0.5                     | Versjon 23.0.5                     | Versjon 23.0.5                     | Versjon 23.0.5                   |
+| Image-størrelse   | 151MB                           | 150.86MB                            | 150.86MB                           | 39,345MB*                          | 4,81GB                             | 4,81GB                           |
+
+*Applikasjon, ikke image
+
+
+## 4.1 Test av Caddy konteinere
+
+Miljø 1, 2, 3, 5 og 6, alle konteinermiljøene følger instruksene under for gjennomføringen av test 2:
+
 1. Lager en Dockerfile med følgene innhold:
 
 ```
@@ -109,27 +159,29 @@ Kilde: https://www.docker.com/blog/how-to-use-the-official-nginx-docker-image/
 
 Vi velger å ikke bruke mount volume da det kobler opp konteineren til en filplassering lokalt på maskinen/VMen. Dette vil kunne skape forsinkelser og kunne gi feilkilder.
 
-2. Vi går inn i samme mappe som Dockerfilen og binærfilen ligger, og kjører følgene kommando i powershell:
-
+2. Vi går inn i samme mappe som Dockerfilen og binærfilen ligger, og kjører følgene Docker kommando:
+```shell
 $ docker build -t webserver .
-
+```
 Denne kommandoen bygger en webserver basert på Dockerfilen som ble laget tidligere, altså en Caddy webserver som har en binærfil i filstrukturen sin på 100MB.
 
-3. Kjøre følgene kommando for å starte webserveren:
-
+3. Kommando for å starte webserveren:
+```shell
 $ docker run -d --ip http://10.0.0.x -p 8080:80 webserver
-
+```
 Denne kommandoen starter en konteiner basert på imaget "webserver" som ble laget i forrige steg:
 - Docker run - Starter konteineren
 - -d - kjører konteineren i bakgrunnen
 - -p 8080:80 - Setter port 8080 til verten og port 80 til konteineren
 - --ip setter statisk IP til webserveren og fjerner TLS slik at det kun blir http
 
+Hver VM fikk en IP i subnettet 10.0.0.0/24.
+
 4. Gjennomføring og resultater
 
-For å kjøre gjennomføre curl x antall ganger, samt måle tid den bruker på å curle i en fil, brukes følgene powershellscript:
-
-$fileName = "results.txt" \
+For å kjøre gjennomføre curl 100 antall ganger, samt måle tid den bruker på å curle i en fil, brukes følgene powershellscript:
+```shell
+$fileName = "resultat.txt" \
 $numberOfRuns = 100
 
 for ($i = 1; $i -le $numberOfRuns; $i++) {
@@ -137,18 +189,21 @@ for ($i = 1; $i -le $numberOfRuns; $i++) {
     $totalSeconds = $timeSpan.TotalSeconds \
     Add-Content -Path $fileName -Value $totalSeconds
 }
-
-- $fileName - Lager en fil kalt results.txt
+```
+- $fileName - Lager en fil kalt resultat.txt
 - $numberOfRuns - Antall ganger den skal curle
 - $timeSpan - En variabel for curl og tidsmåling koammdno
 - Measure-Coammdnd - Tar tiden det tar å curle
 - $totalSeconds - Variabel for hvor mange sekunder curlen tar
 - Legger til tiden det tar å curle i filen results.txt
 
+## 4.2 Endring av miljø
 
-### Hyper-V backend-modus
+Under er dokumentasjon for å endre mellom backend moduser som Hyper-V/ WSL 2, isolasjonsmodus eller Windows- og Linux-konteinere.
 
-Windows- og Linux-konteinere på Wundows
+### 4.2.1 Hyper-V backend-modus
+
+Windows- og Linux-konteinere på Windows
 
 1. I instillinger på Docker Desktop under Generelt skru av "Use WSL 2 based engine"I
 
@@ -156,45 +211,48 @@ https://learn.microsoft.com/en-us/virtualization/hyper-v-on-windows/quick-start/
 
 2. Åpne powershell som administrator
 3. Kjør følgene kommando:
-
+```shell
 Enable-WindowsOptionalFeature -Online -FeatureName Microsoft-Hyper-V -All
-
-### Bytte mellom isolation- og Hyper-V-isolaton
-Ved å bruke følgene kommandoen ved kjøring av en konteiner kan man bytte mellom process- og hyper-V-isolation.
-
+```
+#### Bytting av isolasjonsmodus
+Ved å bruke følgene kommandoer ved kjøring av en konteiner kan man bytte mellom process- og hyper-V-isolation.
+```shell
 --isolation=process
-
+```
+```shell
 --isolation=hyperv
-
+```
 https://web.archive.org/web/20220922004918/https://learn.microsoft.com/en-us/virtualization/windowscontainers/manage-containers/hyperv-container
 
 NB: Windows-server konteinere bruker standard process isolation, og Windows 10 konteinere bruker standard Hyper-V isolation. Fra og med Windows 10 oktober 2018-oppdateringen kan brukere som kjører en Windows 10 Pro eller Enterprise-vert kjøre en Windows-konteiner med process isolation. Brukere må direkte be om process isolation ved å bruke --isolation=process.
 
 
 
-### WSL2 backend-modus
+### 4.2.2 WSL2 backend-modus
 
 Linux-konteinere på Windows
 
 1. I instillinger på Docker Desktop under Generelt skru på "Use WSL 2 based engine"
 
 
-### Switche mellom Windows- og Linux-konteinere
+### 4.2.3 Switche mellom Windows- og Linux-konteinere
 "Switch to Windows/Linux containers" knappen når man høyreklikker på Docker Dekstop inkonet i system tray.
 
 
 
-### Hvordan sjekke backend- og isolation-modus
+### 4.2.4 Hvordan sjekke backend- og isolation-modus
 
 Følgene kommando viser backend modus: \
+```shell
 docker info | Select-String -Pattern "OSType"
-
+```
 - Windows - Hyper-V
 - Linux - WSL 2
 
 Følgene kommando viser isolasjonsmodus: \
+```shell
 docker info | Select-String -Pattern "Isolation"
-
+```
 
 <!---
 5. For å sjekke tiden det tar å hente ned filen 100MB.bin fra Caddy webserveren brukes kommandoen:
@@ -229,7 +287,7 @@ Enable-WindowsOptionalFeature -Online -FeatureName $("Microsoft-Hyper-V", "Conta
 
 --->
 
-## Caddy applikasjon <a id=caddy_app> </a>
+## 4.3 Caddy applikasjon <a id=caddy_app> </a>
 Lager en mappe **C:\caddy**.
 Laster ned Caddy for [Windows amd64](https://caddyserver.com/api/download?os=windows&arch=amd64&idempotency=59971736216496) fra [Caddy sin nettside](https://caddyserver.com/download), lagrer filen som **caddy.exe** og flytter den til mappen **C:\caddy**.
 
@@ -287,39 +345,7 @@ caddy run
 
 <br><br>
 
-# Windows uten Internett
-Maksinen har Windows 10 Pro versjon 22H2 (operativsystembygg 19045.2846)
 
-Laster ned [Docker Desctop for Windows](https://desktop.docker.com/win/main/amd64/Docker%20Desktop%20Installer.exe) fra [nettsiden](https://docs.docker.com/desktop/install/windows-install/) til Docker. 
-
-Kjører Docker Desktop programmet, og får bedskjed om å oppdatere WSL. Følger [WSL guide](https://learn.microsoft.com/en-us/windows/wsl/install-manual) fra Microsoft:
-1. Laster ned [WSL2](https://wslstorestorage.blob.core.windows.net/wslblob/wsl_update_x64.msi) fra [guiden](https://learn.microsoft.com/en-us/windows/wsl/install-manual) på en maskin med Internett.
-
-2. Overfører filen til maskinen uten Internett med minnepinne, og kjører filen. 
-
-3. Setter WSL 2 som standardversjon av WSL gjennom å kjøre kommandoen:
-```shell
-wsl --set-default-version 2
-```
-<br> <br>
-
-## Overføre Windows-image <a id=windows-image> </a>
-En maskin med Internett-tilgang vil bli brukt til å laste ned det imaget vi ønsker å overføre til Windows-maskinen uten Internett: 
-
-1. På begge maskinene må man [bytte til](#bytte_OS) **Windows-kontinere** for Docker Desktop.
-2. På Windows-maskinen med Internett-tilgang [laster man ned](#laste_image) Windows-imaget **hello-world:nanoserver-1809**. 
-3. Deretter [overfører](#overføre_image) man imaget til Windows-maskinen uten Internett.
-
-<br>
-
-## Overføre Linux-image <a id=linux-image> </a>
-En maskin med Internett-tilgang vil bli brukt til å laste ned det imaget vi ønsker å overføre til Windows-maskinen uten Internett: 
-
-1. På begge maskinene må man [bytte til](#bytte_OS) **Linux-kontinere** for Docker Desktop.
-2. På Windows-maskinen med Internett-tilgang [laster man ned](#laste_image) Windows-imaget **hello-world:linux**. 
-3. Deretter [overfører](#overføre_image) man imaget til Windows-maskinen uten Internett.
-
-<br> <br>
 
 # Test 2/3
 
