@@ -1,14 +1,3 @@
-| Miljø             | 1                               | 2                                   | 3                                  | 4                                  | 5                                  | 6                                |
-|-------------------|---------------------------------|-------------------------------------|------------------------------------|------------------------------------|------------------------------------|----------------------------------|
-| Applikasjons-form | Linux-konteiner                 | Linux-konteiner                     | Linux-konteiner                    | Windows-applikasjon                | Windows-konteiner                  | Windows-konteiner                |
-| VertsOS           | Linux vert                      | Windows vert                        | Windows vert                       | Windows vert                       | Windows vert                       | Windows Server vert              |
-| Virtualisering    |                -                | Hyper-V                             | WSL 2                              |                  -                 | Hyper-V                            | Hyper-V                          |
-| OS versjon        | Debian GNU/ Linux 11 (bullseye) | Windows 10 Enterprise versjon 22H2  | Windows 10 Enterprise versjon 22H2 | Windows 10 Enterprise versjon 22H2 | Windows 10 Enterprise versjon 22H2 | Windows Server 2019 versjon 1809 |
-| Docker versjon    | Versjon 23.0.3                  | Versjon 23.0.5                      | Versjon 23.0.5                     | Versjon 23.0.5                     | Versjon 23.0.5                     | Versjon 23.0.5                   |
-| Image-størrelse   | 151MB                           | 150.86MB                            | 150.86MB                           | 39,345MB*                          | 4,81GB                             | 4,81GB                           |
-| IP-adresse        | http://10.0.0.4:8080/100MB.bin  | http://10.0.0.2:8080/100MB.bin      | http://10.0.0.2:8080/100MB.bin     | http://10.0.0.1:8080               | http://10.0.0.2:8080/100MB.bin     | http://10.0.0.5:8080/100MB.bin   |
-
-
 # Vedlegg A - systemkonfigurasjon
 
 **Innhold:**
@@ -16,7 +5,13 @@
 2. [Linux](#2-linux)  
 2.1. [For å gi brukeren på Linux sudo rettigheter:](#21-for-å-gi-brukeren-på-linux-sudo-rettigheter)  
 2.2. [Oppsett av Docker på Linux:](#22-oppsett-av-docker-på-linux)  
-3. [Windows](#3-windows)
+3. [Test 1](#3-Test-1)\
+3.1. [Overføre Windows-image](#windows-image)\
+3.2 [Overføre Linux-image](#linux-image)
+4. [Test 2](#4-test-2)\
+4.1 [Caddy konteinere](#4.1-Caddy-konteinere)\
+4.2 [Endring av miljø](#4.2-Endring-av-miljø)\
+4.3 [Caddy applikasjon](#caddy_app)
 
 <br>
 <br>
@@ -87,6 +82,11 @@ docker --version
 <br>
 
 
+
+
+
+
+
 # 3 Test 1
 Maksinen har Windows 10 Pro versjon 22H2 (operativsystembygg 19045.2846)
 
@@ -140,6 +140,7 @@ På alle maskinene som er med i test 2 er det lastet ned en 100 MB binær fil me
 
 Det ble laget ulike testmiljøer for å teste ulike typer konteinere samt en tradisjonell applikasjon. Miljøene og variablene er listet under:
 
+
 | Miljø             | 1                               | 2                                   | 3                                  | 4                                  | 5                                  | 6                                |
 |-------------------|---------------------------------|-------------------------------------|------------------------------------|------------------------------------|------------------------------------|----------------------------------|
 | Applikasjons-form | Linux-konteiner                 | Linux-konteiner                     | Linux-konteiner                    | Windows-applikasjon                | Windows-konteiner                  | Windows-konteiner                |
@@ -148,11 +149,14 @@ Det ble laget ulike testmiljøer for å teste ulike typer konteinere samt en tra
 | OS versjon        | Debian GNU/ Linux 11 (bullseye) | Windows 10 Enterprise versjon 22H2  | Windows 10 Enterprise versjon 22H2 | Windows 10 Enterprise versjon 22H2 | Windows 10 Enterprise versjon 22H2 | Windows Server 2019 versjon 1809 |
 | Docker versjon    | Versjon 23.0.3                  | Versjon 23.0.5                      | Versjon 23.0.5                     | Versjon 23.0.5                     | Versjon 23.0.5                     | Versjon 23.0.5                   |
 | Image-størrelse   | 151MB                           | 150.86MB                            | 150.86MB                           | 39,345MB*                          | 4,81GB                             | 4,81GB                           |
+| IP-adresse        | http://10.0.0.4:8080/100MB.bin  | http://10.0.0.2:8080/100MB.bin      | http://10.0.0.2:8080/100MB.bin     | http://10.0.0.1:8080               | http://10.0.0.2:8080/100MB.bin     | http://10.0.0.5:8080/100MB.bin   |
+
+
 
 *Applikasjon, ikke image
 
 
-## 4.1 Test av Caddy konteinere
+## 4.1 Caddy konteinere
 
 Miljø 1, 2, 3, 5 og 6, alle konteinermiljøene følger instruksene under for gjennomføringen av test 2:
 
@@ -358,18 +362,6 @@ caddy run
 
 
 
-# Test 2/3
-
-Skrur av alle brannmurer på maskinene. 
-
-Windowsapp: http://10.0.0.1:8080
-Windowskonteiner/LinuxHyperV/LinuxWSL: http://10.0.0.3:8080/100MB.bin
-Linux: http://10.0.0.4:8080/100MB.bin
-WindowsServerProcessIsolation: http://10.0.0.5:8080/100MB.bin
-
-
-
-
 # Installere Docker Desktop på Windows <a id=Docker_installasjon> </a>
 For installasjon av Docker ble [installasjonsguiden _(https://docs.docker.com/desktop/install/windows-install/)_](https://docs.docker.com/desktop/install/windows-install/) til Docker Inc fulgt. 
 
@@ -475,8 +467,5 @@ Noen konteinere trenger å starte med noen parametere.
 Det finnes mange parametere i kommandoen, og man får en oversikt over de forskjellige ved å skrive ```docker run --help```.
 
 Dersom noen av konteinerene i testene våres krever parametere så vil det bli spesifisert i oppsettet til testen. 
-
-
-
 
 
