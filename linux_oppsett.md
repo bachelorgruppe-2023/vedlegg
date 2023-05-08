@@ -1,3 +1,14 @@
+| Miljø             | 1                               | 2                                   | 3                                  | 4                                  | 5                                  | 6                                |
+|-------------------|---------------------------------|-------------------------------------|------------------------------------|------------------------------------|------------------------------------|----------------------------------|
+| Applikasjons-form | Linux-konteiner                 | Linux-konteiner                     | Linux-konteiner                    | Windows-applikasjon                | Windows-konteiner                  | Windows-konteiner                |
+| VertsOS           | Linux vert                      | Windows vert                        | Windows vert                       | Windows vert                       | Windows vert                       | Windows Server vert              |
+| Virtualisering    |                -                | Hyper-V                             | WSL 2                              |                  -                 | Hyper-V                            | Hyper-V                          |
+| OS versjon        | Debian GNU/ Linux 11 (bullseye) | Windows 10 Enterprise versjon 22H2  | Windows 10 Enterprise versjon 22H2 | Windows 10 Enterprise versjon 22H2 | Windows 10 Enterprise versjon 22H2 | Windows Server 2019 versjon 1809 |
+| Docker versjon    | Versjon 23.0.3                  | Versjon 23.0.5                      | Versjon 23.0.5                     | Versjon 23.0.5                     | Versjon 23.0.5                     | Versjon 23.0.5                   |
+| Image-størrelse   | 151MB                           | 150.86MB                            | 150.86MB                           | 39,345MB*                          | 4,81GB                             | 4,81GB                           |
+| IP-adresse        | http://10.0.0.4:8080/100MB.bin  | http://10.0.0.2:8080/100MB.bin      | http://10.0.0.2:8080/100MB.bin     | http://10.0.0.1:8080               | http://10.0.0.2:8080/100MB.bin     | http://10.0.0.5:8080/100MB.bin   |
+
+
 # Vedlegg A - systemkonfigurasjon
 
 **Innhold:**
