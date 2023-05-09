@@ -60,10 +60,10 @@ Alle verts-maskinene har følgende instilling påskrudd: "Exposure hardware assi
 Maksinen som ikke er tilkoblet Internett har Windows 10 Pro versjon 22H2 (operativsystembygg 19045.2846).
 
 ## 2.1 Docker Desktop installering <a id=windows_uten_nett_docker> </a>
-Laster ned [Docker Desktop for Windows](https://desktop.docker.com/win/main/amd64/Docker%20Desktop%20Installer.exe) fra [nettsiden](https://docs.docker.com/desktop/install/windows-install/) til Docker. 
+Laster ned Docker Desktop for Windows [(https://desktop.docker.com/win/main/amd64/Docker%20Desktop%20Installer.exe)](https://desktop.docker.com/win/main/amd64/Docker%20Desktop%20Installer.exe) fra nettsiden til Docker [(https://docs.docker.com/desktop/install/windows-install/)](https://docs.docker.com/desktop/install/windows-install/). 
 
-Kjører Docker Desktop programmet, og får bedskjed om å oppdatere WSL. Følger [WSL guide](https://learn.microsoft.com/en-us/windows/wsl/install-manual) fra Microsoft:
-1. Laster ned [WSL2](https://wslstorestorage.blob.core.windows.net/wslblob/wsl_update_x64.msi) fra [guiden](https://learn.microsoft.com/en-us/windows/wsl/install-manual) på en maskin med Internett.
+Kjører Docker Desktop programmet, og får bedskjed om å oppdatere WSL. Følger WSL guide fra Microsoft [(https://learn.microsoft.com/en-us/windows/wsl/install-manual)](https://learn.microsoft.com/en-us/windows/wsl/install-manual):
+1. Laster ned WSL2 [(https://wslstorestorage.blob.core.windows.net/wslblob/wsl_update_x64.msi)](https://wslstorestorage.blob.core.windows.net/wslblob/wsl_update_x64.msi) fra guiden [(https://learn.microsoft.com/en-us/windows/wsl/install-manual)](https://learn.microsoft.com/en-us/windows/wsl/install-manual) på en maskin med Internett.
 
 2. Overfører filen til Windows-maskinen uten Internett med minnepinne, og kjører filen. 
 
@@ -95,7 +95,8 @@ En maskin med Internett-tilgang vil bli brukt til å laste ned det imaget vi øn
 
 # 3. Test 2 <a id=test2> </a>
 
-På maskinene som er med i test 2 er det lastet ned en 100 MB binær fil med [lenken](https://speed.hetzner.de/100MB.bin) fra [testfilesdownload.com](https://testfiledownload.com/). Denne filen vil fra nå av bli referert til som **100MB.bin**.
+På maskinene som er med i test 2 er det lastet ned en 100 MB binær fil med lenken [https://speed.hetzner.de/100MB.bin](https://speed.hetzner.de/100MB.bin) fra [https://testfiledownload.com/](https://testfiledownload.com/). Denne filen vil fra nå av bli referert til som **100MB.bin**.
+
 Windows-maskinene har [Docker Desktop installert](#Docker_installasjon). 
 
 Hver VM fikk en IP i subnettet 10.0.0.0/24 og var koblet til samme nett uten Internettilkobling når testene for test 2 ble gjennomført. Alle maskinene hadde brannmur skrudd av. 
@@ -177,7 +178,9 @@ Windows- og Linux-konteinere på Windows
 
 1. I instillinger på Docker Desktop under Generelt skru av "Use WSL 2 based engine". 
 
+<!--
 https://learn.microsoft.com/en-us/virtualization/hyper-v-on-windows/quick-start/enable-hyper-v
+-->
 
 2. Åpne powershell som administrator.
 3. Kjør følgene kommando:
@@ -195,7 +198,10 @@ Ved å bruke følgene kommandoer ved kjøring av en konteiner kan man bytte mell
 ```shell
 --isolation=hyperv
 ```
+<!-- 
 https://web.archive.org/web/20220922004918/https://learn.microsoft.com/en-us/virtualization/windowscontainers/manage-containers/hyperv-container
+-->
+
 
 NB: Windows-server konteinere bruker standard process isolation, og Windows 10 konteinere bruker standard Hyper-V isolation. Fra og med Windows 10 oktober 2018-oppdateringen kan brukere som kjører en Windows 10 Pro eller Enterprise-vert kjøre en Windows-konteiner med process isolation. Brukere må direkte be om process isolation ved å bruke --isolation=process.
 
@@ -269,7 +275,7 @@ Enable-WindowsOptionalFeature -Online -FeatureName $("Microsoft-Hyper-V", "Conta
 <br><br>
 
 ## 3.4 Caddy applikasjon <a id=caddy_app> </a>
-1. Laster ned Caddy for [Windows amd64](https://caddyserver.com/api/download?os=windows&arch=amd64&idempotency=59971736216496) fra [Caddy sin nettside](https://caddyserver.com/download).
+1. Laster ned Caddy for Windows amd64[(https://caddyserver.com/api/download?os=windows&arch=amd64&idempotency=59971736216496)](https://caddyserver.com/api/download?os=windows&arch=amd64&idempotency=59971736216496) fra Caddy sin nettside [(https://caddyserver.com/download)](https://caddyserver.com/download).
 - Lager en mappe **C:\caddy**.
 - Lagrer nedlastningen av Caddy som **caddy.exe** og flytter den til mappen **C:\caddy**.
 
@@ -399,7 +405,7 @@ Dersom siste linje printer ut en liste har brukeren sudo rettigheter.
 <br>
 
 ## 4.2 Oppsett av Docker på Linux <a id=oppsett-av-docker-på-linux> </a>
-Installer Docker gjennom et script fra [get.docker.com](https://get.docker.com/) ved å åpne en terminal på Linux-maskinen og kjøre kommandoene: 
+Installer Docker gjennom et script fra [https://get.docker.com/](https://get.docker.com/) ved å åpne en terminal på Linux-maskinen og kjøre kommandoene: 
 ```shell
 $ sudo apt update && sudo apt upgrade -y && sudo apt install curl -y
 $ curl -fsSL https://get.docker.com -o get-docker.sh
@@ -418,7 +424,7 @@ $ docker --version
 <br><br>
 
 # 5. Installere Docker Desktop på Windows <a id=Docker_installasjon> </a>
-For installasjon av Docker ble [installasjonsguiden _(https://docs.docker.com/desktop/install/windows-install/)_](https://docs.docker.com/desktop/install/windows-install/) til Docker Inc fulgt. 
+For installasjon av Docker ble installasjonsguiden til Docker Inc fulgt [(https://docs.docker.com/desktop/install/windows-install/)](https://docs.docker.com/desktop/install/windows-install/). 
 
 Skrur på WSL 2 ved å kjøre kommandoen ```wsl --install``` i Powershell.
 
@@ -429,7 +435,7 @@ Enable-WindowsOptionalFeature -Online -FeatureName Microsoft-Windows-Subsystem-L
 
 
 Vi installerte Docker Desktop ved å laste ned og kjøre "Docker Desktop Installer.exe" fra 
-[installasjonsguiden](https://docs.docker.com/desktop/install/windows-install/).
+installasjonsguiden til Docker [(https://docs.docker.com/desktop/install/windows-install/)](https://docs.docker.com/desktop/install/windows-install/).
 
 
 
