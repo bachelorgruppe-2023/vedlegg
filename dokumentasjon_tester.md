@@ -1,12 +1,12 @@
 # Vedlegg A - systemkonfigurasjon
 
 **Innhold:**
-1. [Generelt](#1-generelt)
+1. [Generelt](#1-generelt)  
 
 2. [Test 1](#test1)  
 2.1 [Docker Desktop installering](#windows_uten_nett_docker)  
 2.2 [Overføre Windows-image](#windows_uten_nett_image)  
-2.3 [Overføre Linux-image](#linux-image)
+2.3 [Overføre Linux-image](#linux-image)  
 
 3. [Test 2](#test2)  
 3.1 [Oppsett av de ulike miljøene](#miljø)  
@@ -15,11 +15,11 @@
 3.4 [Caddy applikasjon](#caddy_app)  
 3.5 [Gjennomføring og resultater](#resultater)   
 
-[Dokumentasjon:](#dokumentasjon) 
+[Dokumentasjon:](#dokumentasjon)  
 
 4. [Oppsett av Linux](#linux)  
-4.1 [For å gi brukeren på Linux sudo rettigheter:](#for-å-gi-brukeren-på-linux-sudo-rettigheter)  
-4.2 [Oppsett av Docker på Linux:](#oppsett-av-docker-på-linux)  
+4.1 [Sudo rettigheter til Linux brukeren](#sudo-rettigheter)  
+4.2 [Oppsett av Docker på Linux](#oppsett-av-docker-på-linux)  
 
 5. [Installere Docker Desktop på Windows](#Docker_installasjon)  
 6. [Bytte OS-miljø på Docker](#bytte_OS)  
@@ -124,7 +124,7 @@ Det ble laget ulike testmiljøer for å teste ulike typer konteinere samt en tra
 
 \* Applikasjon, ikke image
 
-
+Mange av de resterende kapittlene i dette kapittelet er oppsett av miljø på de forskjellige maskinene. 
 
 
 <br>
@@ -373,7 +373,7 @@ Vi kjører Debian GNU/Linux 11.6.0 x86_64 med standardinstillinger.
 
 <br>
 
-## 4.1 Sudo rettigheter til Linux brukeren <a id=for-å-gi-brukeren-på-linux-sudo-rettigheter> </a>
+## 4.1 Sudo rettigheter til Linux brukeren <a id=sudo-rettigheter> </a>
 Av praktiske årsaker gir vi brukeren på Linux sudo rettigheter. Under finnes en guide på dette: 
 
 1. I en terminal, kjør koden:
@@ -398,7 +398,7 @@ Dersom siste linje printer ut en liste har brukeren sudo rettigheter.
 
 <br>
 
-## 4.2 Oppsett av Docker på Linux: <a id=oppsett-av-docker-på-linux> </a>
+## 4.2 Oppsett av Docker på Linux <a id=oppsett-av-docker-på-linux> </a>
 Installer Docker gjennom et script fra [get.docker.com](https://get.docker.com/) ved å åpne en terminal på Linux-maskinen og kjøre kommandoene: 
 ```shell
 $ sudo apt update && sudo apt upgrade -y && sudo apt install curl -y
