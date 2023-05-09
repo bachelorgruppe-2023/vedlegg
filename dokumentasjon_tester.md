@@ -21,8 +21,8 @@
 4.1 [Sudo rettigheter til Linux brukeren](#sudo-rettigheter)  
 4.2 [Oppsett av Docker på Linux](#oppsett-av-docker-på-linux)  
 
-5. [Installere Docker Desktop på Windows](#Docker_installasjon)  
-6. [Bytte OS-miljø på Docker](#bytte_OS)  
+5. [Installere Docker Desktop på Windows](#docker_installasjon)  
+6. [Bytte OS-miljø på Docker](#bytte_os)  
 7. [Laste ned image](#laste_image)  
 8. [Overføre image](#overføre_image)   
 9. [Kjøre konteinere](#run)  
@@ -63,7 +63,7 @@ Maksinen som ikke er tilkoblet Internett har Windows 10 Pro versjon 22H2 (operat
 Laster ned Docker Desktop for Windows [(https://desktop.docker.com/win/main/amd64/Docker%20Desktop%20Installer.exe)](https://desktop.docker.com/win/main/amd64/Docker%20Desktop%20Installer.exe) fra nettsiden til Docker [(https://docs.docker.com/desktop/install/windows-install/)](https://docs.docker.com/desktop/install/windows-install/). 
 
 Kjører Docker Desktop programmet, og får bedskjed om å oppdatere WSL. Følger WSL guide fra Microsoft [(https://learn.microsoft.com/en-us/windows/wsl/install-manual)](https://learn.microsoft.com/en-us/windows/wsl/install-manual):
-1. Laster ned WSL2 [(https://wslstorestorage.blob.core.windows.net/wslblob/wsl_update_x64.msi)](https://wslstorestorage.blob.core.windows.net/wslblob/wsl_update_x64.msi) fra guiden [(https://learn.microsoft.com/en-us/windows/wsl/install-manual)](https://learn.microsoft.com/en-us/windows/wsl/install-manual) på en maskin med Internett.
+1. Laster ned WSL2 [(https://wslstorestorage.blob.core.windows.net/wslblob/wsl_update_x64.msi)](https://wslstorestorage.blob.core.windows.net/wslblob/wsl_update_x64.msi) fra guiden til Microsoft [(https://learn.microsoft.com/en-us/windows/wsl/install-manual)](https://learn.microsoft.com/en-us/windows/wsl/install-manual) på en maskin med Internett.
 
 2. Overfører filen til Windows-maskinen uten Internett med minnepinne, og kjører filen. 
 
@@ -76,7 +76,7 @@ wsl --set-default-version 2
 ## 2.2 Overføre Windows-image <a id=windows_uten_nett_image> </a>
 En maskin med Internett-tilgang vil bli brukt til å laste ned det imaget vi ønsker å overføre til Windows-maskinen uten Internett: 
 
-1. På begge maskinene må man [bytte til](#bytte_OS) **Windows-kontinere** for Docker Desktop.
+1. På begge maskinene må man [bytte til](#bytte_os) **Windows-kontinere** for Docker Desktop.
 2. På Windows-maskinen med Internett-tilgang [laster man ned](#laste_image) Windows-imaget **hello-world:nanoserver-1809**. 
 3. Deretter [overfører](#overføre_image) man imaget til Windows-maskinen uten Internett.
 
@@ -85,7 +85,7 @@ En maskin med Internett-tilgang vil bli brukt til å laste ned det imaget vi øn
 ## 2.3 Overføre Linux-image <a id=linux-image> </a>
 En maskin med Internett-tilgang vil bli brukt til å laste ned det imaget vi ønsker å overføre til Windows-maskinen uten Internett: 
 
-1. På begge maskinene må man [bytte til](#bytte_OS) **Linux-kontinere** for Docker Desktop.
+1. På begge maskinene må man [bytte til](#bytte_os) **Linux-kontinere** for Docker Desktop.
 2. På Windows-maskinen med Internett-tilgang [laster man ned](#laste_image) Windows-imaget **hello-world:linux**. 
 3. Deretter [overfører](#overføre_image) man imaget til Windows-maskinen uten Internett.
 
@@ -97,9 +97,9 @@ En maskin med Internett-tilgang vil bli brukt til å laste ned det imaget vi øn
 
 På maskinene som er med i test 2 er det lastet ned en 100 MB binær fil med lenken [https://speed.hetzner.de/100MB.bin](https://speed.hetzner.de/100MB.bin) fra [https://testfiledownload.com/](https://testfiledownload.com/). Denne filen vil fra nå av bli referert til som **100MB.bin**.
 
-Windows-maskinene har [Docker Desktop installert](#Docker_installasjon). 
+Windows-maskinene har [Docker Desktop installert](#docker_installasjon) og [installert](#laste_image) **caddy** imaget med versjon **2.6.4-alpine**. 
 
-Hver VM fikk en IP i subnettet 10.0.0.0/24 og var koblet til samme nett uten Internettilkobling når testene for test 2 ble gjennomført. Alle maskinene hadde brannmur skrudd av. 
+Når testene for test 2 ble gjennomført fikk hver maskin en IP i subnettet 10.0.0.0/24 uten Internettilkobling og alle brannmurer var skrudd av.
 
 > **MERK:** _Maskinen som curlet nettsidene var en helt ren Windows-maskin og inneholder bare det som følger med OS-et (Windows 10 PRO versjon 22H2)._ 
 
@@ -131,7 +131,7 @@ Mange av de resterende underkapittlene i dette kapittelet er oppsett av miljø p
 
 ## 3.2 Caddy konteinere <a id=caddy-konteinere> </a>
 
-Miljø 1, 2, 3, 5 og 6, alle konteinermiljøene følger instruksene under for gjennomføringen av test 2:
+Miljø 1, 2, 3, 5 og 6 (alle konteinermiljøene) følger instruksene under for gjennomføringen av test 2:
 
 1. Lager en Dockerfile med følgene innhold:
 
@@ -232,7 +232,7 @@ docker info | Select-String -Pattern "Isolation"
 <br>
 
 ### **3.3.5 Switche mellom Windows- og Linux-konteinere**
-Se [vår dokumentasjon på bytte mellom konteinertyper](#bytte_OS).
+Se [vår dokumentasjon på bytte mellom konteinertyper](#bytte_os).
 
 <br>
 
@@ -418,12 +418,12 @@ $ docker --version
 
 > **MERK:** _Skal testen etterprøves, bør samme versjon av Docker lastes ned. Dette er for å skape et likt testmiljø. Sjekk [https://docs.docker.com/engine/install/debian/#install-docker-engine](https://docs.docker.com/engine/install/debian/#install-docker-engine) for guide til dette._
 
-
+[Laster ned](#laste_image) imaget  **caddy** med versjon **2.6.4-alpine**.
 
 
 <br><br>
 
-# 5. Installere Docker Desktop på Windows <a id=Docker_installasjon> </a>
+# 5. Installere Docker Desktop på Windows <a id=docker_installasjon> </a>
 For installasjon av Docker ble installasjonsguiden til Docker Inc fulgt [(https://docs.docker.com/desktop/install/windows-install/)](https://docs.docker.com/desktop/install/windows-install/). 
 
 Skrur på WSL 2 ved å kjøre kommandoen ```wsl --install``` i Powershell.
@@ -441,7 +441,7 @@ installasjonsguiden til Docker [(https://docs.docker.com/desktop/install/windows
 
 <br><br>
 
-# 6. Bytte OS-miljø på Docker <a id=bytte_OS> </a>
+# 6. Bytte OS-miljø på Docker <a id=bytte_os> </a>
 For å administrere imager og konteinere som er bygd på forskjellige OS må man bytte til riktig type Docker Daemon. Docker kan kun kjøre en Daemon av gangen, noe som gjør at man blir nødt til å bytte mellom Windows og Linux Daemons for å administrere forskjellige type OS-konteinere. Konteinere som kjører og all data som er lagret vil ikke forsvinne når man bytter Daemon, men vil ikke være mulig å aksessere gjennom Docker Desktop før man bytter til tilhørende Daemon. 
 
 Standard for Docker Desktop på Windows er å kjøre konteinere på WSL, noe som kun Linux-kontinere kan benytte. For å laste opp Windows-imager og starte Windows-konteinere på Docker Desktop på en Windows-maskin må man bytte til Windows-konteinere på Docker Desktop. 
@@ -471,11 +471,11 @@ Kjøre kommandoen under i PowerShell med administratorrettigheter:
 <br> <br>
 
 # 7. Laste ned image <a id=laste_image> </a>
-For å hente et offentlig image fra Docker Hub på Internett må maskinen være koblet til Internett og ha Docker [installert](#Docker_installasjon). 
+For å hente et offentlig image fra Docker Hub på Internett må maskinen være koblet til Internett og ha Docker [installert](#docker_installasjon). 
 
 > **MERK:** _I kommandoene under er \<image> et eksempel på et image navn, og dette ordet må byttes ut med navnet på det imaget du ønsker å hente. \<versjon> må byttes med den spesifikke versjonen til imaget._ 
 
-For å hente nyeste versjon av et image, her kaldt \<image>, kjører man kommandoen under i PowerShell med administratorrettigheter:
+For å hente nyeste versjon av et image, her kaldt \<image>, kjører man kommandoen under i terminal med administratorrettigheter:
 ```shell
 docker pull <image>
 ```
@@ -496,7 +496,7 @@ docker pull <image>:<versjon>
 # 8. Overføre image <a id=overføre_image> </a>
 For å overføre et image fra Internett til en maskin uten Internett må man først hente imaget fra Internett. Dette har vi gjort gjennom en en maskin på Internett. Deretter har vi overført dette imaget til en minnepinne, som vi bruker for å overføre imaget til maskinen uten Internett-tilgang.
 
-Det er viktig at begge maskinene har samme [OS-konteiner miljø](#bytte_OS) på Docker for å kunne overføre imaget. 
+Det er viktig at begge maskinene har samme [OS-konteiner miljø](#bytte_os) på Docker for å kunne overføre imaget. 
 
 1. Først må man ha [lastet ned](#laste_image) imaget man ønsker å overføre. 
 2. På maskinen imaget er lastet ned på, overfører man imaget til en USB-minnepinne på følgende måte:
