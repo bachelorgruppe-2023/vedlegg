@@ -29,8 +29,7 @@
 
 
 
-<br>
-<br>
+<br><br>
 
 # 1 Generelt
 
@@ -72,7 +71,7 @@ Kjører Docker Desktop programmet, og får bedskjed om å oppdatere WSL. Følger
 ```shell
 wsl --set-default-version 2
 ```
-<br> <br>
+<br> 
 
 ## 2.2 Overføre Windows-image <a id=windows_uten_nett_image> </a>
 En maskin med Internett-tilgang vil bli brukt til å laste ned det imaget vi ønsker å overføre til Windows-maskinen uten Internett: 
@@ -90,7 +89,7 @@ En maskin med Internett-tilgang vil bli brukt til å laste ned det imaget vi øn
 2. På Windows-maskinen med Internett-tilgang [laster man ned](#laste_image) Windows-imaget **hello-world:linux**. 
 3. Deretter [overfører](#overføre_image) man imaget til Windows-maskinen uten Internett.
 
-<br> <br>
+<br><br>
 
 
 
@@ -103,7 +102,7 @@ Hver VM fikk en IP i subnettet 10.0.0.0/24 og var koblet til samme nett uten Int
 
 > **MERK:** _Maskinen som curlet nettsidene var en helt ren Windows-maskin og inneholder bare det som følger med OS-et (Windows 10 PRO versjon 22H2)._ 
 
-<br><br>
+<br>
 
 ## 3.1 Oppsett av de ulike miljøene <a id=miljø> </a>
 
@@ -172,7 +171,7 @@ Under er dokumentasjon for å endre mellom backend moduser som Hyper-V/ WSL 2, i
 
 <br>
 
-### 3.3.1 Hyper-V backend-modus
+### **3.3.1 Hyper-V backend-modus**
 
 Windows- og Linux-konteinere på Windows
 
@@ -188,7 +187,7 @@ Enable-WindowsOptionalFeature -Online -FeatureName Microsoft-Hyper-V -All
 
 <br>
 
-#### 3.3.2 Bytting av isolasjonsmodus
+#### **3.3.2 Bytting av isolasjonsmodus**
 Ved å bruke følgene kommandoer ved kjøring av en konteiner kan man bytte mellom process- og hyper-V-isolation.
 ```shell
 --isolation=process
@@ -202,7 +201,7 @@ NB: Windows-server konteinere bruker standard process isolation, og Windows 10 k
 
 <br>
 
-### 3.3.3 WSL2 backend-modus
+### **3.3.3 WSL2 backend-modus**
 
 Linux-konteinere på Windows
 
@@ -210,7 +209,7 @@ Linux-konteinere på Windows
 
 <br>
 
-### 3.3.4 Hvordan sjekke backend- og isolation-modus
+### **3.3.4 Hvordan sjekke backend- og isolation-modus**
 
 Følgene kommando viser backend modus: \
 ```shell
@@ -226,11 +225,12 @@ docker info | Select-String -Pattern "Isolation"
 
 <br>
 
-### 3.3.5 Switche mellom Windows- og Linux-konteinere
+### **3.3.5 Switche mellom Windows- og Linux-konteinere**
 Se [vår dokumentasjon på bytte mellom konteinertyper](#bytte_OS).
 
+<br>
 
-### 3.3.6 Linux-maskinen
+### **3.3.6 Linux-maskinen**
 Linux maskinen ble satt opp slik [vår dokumentasjon](#linux) beskriver. 
 
 <!---
