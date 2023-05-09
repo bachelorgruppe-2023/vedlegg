@@ -380,7 +380,7 @@ Vi kjører Debian GNU/Linux 11.6.0 x86_64 med standardinstillinger.
 <br>
 
 ## 4.1 Sudo rettigheter til Linux brukeren <a id=sudo-rettigheter> </a>
-Av praktiske årsaker gir vi brukeren på Linux sudo rettigheter. Under finnes en guide på dette: 
+Av praktiske årsaker gir vi brukeren jb på Linux sudo rettigheter. Under finnes en guide på dette: 
 
 1. I en terminal, kjør koden:
 ```shell
