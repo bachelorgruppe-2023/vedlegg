@@ -1,5 +1,5 @@
 # Bachelor
-Her vil det legges inn vedlegg for bacheloroppgaven.
+Her finnes vedlegg for bacheloroppgaven. 
 
 Dokumentasjon til test 1 og 2 i oppgaven ligger under dokumentet "dokumentasjon_tester.md".
 
