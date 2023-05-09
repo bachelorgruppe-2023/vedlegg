@@ -31,7 +31,7 @@
 
 <br><br>
 
-# 1 Generelt
+# 1. Generelt
 
 Alle maskiner kjører på vSphere, men prosessen med å sette opp virtuelle maskiner er ikke beskrevet da det ikke er fokuset på oppgaven og det ikke skal ha noe å si på forholdene til resultatene. 
 
@@ -56,7 +56,7 @@ Alle verts-maskinene har følgende instilling påskrudd: "Exposure hardware assi
 
 <br> <br>
 
-# 2 Test 1 <a id=test1> </a>
+# 2. Test 1 <a id=test1> </a>
 Maksinen som ikke er tilkoblet Internett har Windows 10 Pro versjon 22H2 (operativsystembygg 19045.2846).
 
 ## 2.1 Docker Desktop installering <a id=windows_uten_nett_docker> </a>
@@ -93,7 +93,7 @@ En maskin med Internett-tilgang vil bli brukt til å laste ned det imaget vi øn
 
 
 
-# 3 Test 2 <a id=test2> </a>
+# 3. Test 2 <a id=test2> </a>
 
 På maskinene som er med i test 2 er det lastet ned en 100 MB binær fil med [lenken](https://speed.hetzner.de/100MB.bin) fra [testfilesdownload.com](https://testfiledownload.com/). Denne filen vil fra nå av bli referert til som **100MB.bin**.
 Windows-maskinene har [Docker Desktop installert](#Docker_installasjon). 
@@ -123,7 +123,7 @@ Det ble laget ulike testmiljøer for å teste ulike typer konteinere samt en tra
 
 \* Applikasjon, ikke image
 
-Mange av de resterende kapittlene i dette kapittelet er oppsett av miljø på de forskjellige maskinene. 
+Mange av de resterende underkapittlene i dette kapittelet er oppsett av miljø på de forskjellige maskinene. 
 
 
 <br>
@@ -358,7 +358,7 @@ for ($i = 1; $i -le $numberOfRuns; $i++) {
 
 Under er det dokumentasjon som blir referert til i kap. 2 og 3. 
 
-# 4 Oppsett av Linux-maskinen <a id=linux> </a>
+# 4. Oppsett av Linux-maskinen <a id=linux> </a>
 
 > **MERK:** _I den påfølgende teksten til kapittel 2 vil vi bruke "\$"- og "\#"-symbolet for å vise en kommando og hvilken rettighet kommandoen benytter. Disse symbolene skal altså ikke skrives inn som en del av kommandoene. "\$"-symbolet representerer kommandoer skrevet av jb brukeren, mens "\#"-symbolet representerer kommandoer skrevet av root._
 
@@ -417,7 +417,7 @@ $ docker --version
 
 <br><br>
 
-# 5 Installere Docker Desktop på Windows <a id=Docker_installasjon> </a>
+# 5. Installere Docker Desktop på Windows <a id=Docker_installasjon> </a>
 For installasjon av Docker ble [installasjonsguiden _(https://docs.docker.com/desktop/install/windows-install/)_](https://docs.docker.com/desktop/install/windows-install/) til Docker Inc fulgt. 
 
 Skrur på WSL 2 ved å kjøre kommandoen ```wsl --install``` i Powershell.
@@ -435,7 +435,7 @@ Vi installerte Docker Desktop ved å laste ned og kjøre "Docker Desktop Install
 
 <br><br>
 
-# 6 Bytte OS-miljø på Docker <a id=bytte_OS> </a>
+# 6. Bytte OS-miljø på Docker <a id=bytte_OS> </a>
 For å administrere imager og konteinere som er bygd på forskjellige OS må man bytte til riktig type Docker Daemon. Docker kan kun kjøre en Daemon av gangen, noe som gjør at man blir nødt til å bytte mellom Windows og Linux Daemons for å administrere forskjellige type OS-konteinere. Konteinere som kjører og all data som er lagret vil ikke forsvinne når man bytter Daemon, men vil ikke være mulig å aksessere gjennom Docker Desktop før man bytter til tilhørende Daemon. 
 
 Standard for Docker Desktop på Windows er å kjøre konteinere på WSL, noe som kun Linux-kontinere kan benytte. For å laste opp Windows-imager og starte Windows-konteinere på Docker Desktop på en Windows-maskin må man bytte til Windows-konteinere på Docker Desktop. 
@@ -464,7 +464,7 @@ Kjøre kommandoen under i PowerShell med administratorrettigheter:
 
 <br> <br>
 
-# 7 Laste ned image <a id=laste_image> </a>
+# 7. Laste ned image <a id=laste_image> </a>
 For å hente et offentlig image fra Docker Hub på Internett må maskinen være koblet til Internett og ha Docker [installert](#Docker_installasjon). 
 
 > **MERK:** _I kommandoene under er \<image> et eksempel på et image navn, og dette ordet må byttes ut med navnet på det imaget du ønsker å hente. \<versjon> må byttes med den spesifikke versjonen til imaget._ 
@@ -487,7 +487,7 @@ docker pull <image>:<versjon>
 
 <br> <br>
 
-# 8 Overføre image <a id=overføre_image> </a>
+# 8. Overføre image <a id=overføre_image> </a>
 For å overføre et image fra Internett til en maskin uten Internett må man først hente imaget fra Internett. Dette har vi gjort gjennom en en maskin på Internett. Deretter har vi overført dette imaget til en minnepinne, som vi bruker for å overføre imaget til maskinen uten Internett-tilgang.
 
 Det er viktig at begge maskinene har samme [OS-konteiner miljø](#bytte_OS) på Docker for å kunne overføre imaget. 
@@ -510,7 +510,7 @@ docker load -i <filbane>\<image>.tar
 
 <br><br>
 
-# 9 Kjøre konteinere <a id=run> </a>
+# 9. Kjøre konteinere <a id=run> </a>
 Man er nødt til å ha imaget for å kunne kjøre en konteiner basert på imaget. Dette kan gjøres gjennom [Internett](#laste_image) eller ved å [overføre fra en annen maskin](#overføre_image). 
 
 <br>
